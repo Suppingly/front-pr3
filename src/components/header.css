@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@tailwind utilities;
+.header-container{
+  @apply flex flex-row justify-around bg-[linear-gradient(90deg,rgb(169,28,194),rgb(156,52,225))] py-3 rounded-b-4xl
+}
+.test{
+  background: linear-gradient(90deg,rgb(169, 28, 194),rgb(156,52,225));
+}
+.header-title{
+  @apply w-fit text-2xl font-medium
+}
+.header-links{
+  @apply w-fit flex
+}
+.header-link{
+  @apply w-fit hover:border-b-3 border-purple-400 px-10
+}
