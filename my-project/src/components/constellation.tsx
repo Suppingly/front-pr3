@@ -1,31 +1,50 @@
-import { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback } from 'react';
 
 interface SkillData {
   id: string;
   label: string;
-  x: number;
-  y: number;
+  zone: 'frontend' | 'backend' | 'gamedev' | 'mobile' | 'other';
   color: string;
-  area?: 'frontend' | 'backend' | 'devops';
 }
 
 interface Particle extends SkillData {
+  x: number;
+  y: number;
   vx: number;
   vy: number;
   radius: number;
+  zoneCenterX: number;
+  zoneCenterY: number;
+  zoneRadius: number;
   isStar?: boolean;
 }
 
 const SKILLS_DATA: SkillData[] = [
-  { id: 'skill-js', label: 'JS', x: 0.25, y: 0.3, color: '#f7df1e', area: 'frontend' },
-  { id: 'skill-react', label: 'React', x: 0.35, y: 0.4, color: '#61dafb', area: 'frontend' },
-  { id: 'skill-css', label: 'CSS', x: 0.2, y: 0.55, color: '#264de4', area: 'frontend' },
-  { id: 'skill-node', label: 'Node.js', x: 0.7, y: 0.3, color: '#339933', area: 'backend' },
-  { id: 'skill-python', label: 'Python', x: 0.6, y: 0.5, color: '#3776ab', area: 'backend' },
-  { id: 'skill-sql', label: 'SQL', x: 0.8, y: 0.65, color: '#003b57', area: 'backend' },
-  { id: 'skill-go', label: 'Go', x: 0.75, y: 0.2, color: '#00add8', area: 'backend' },
-  { id: 'skill-docker', label: 'Docker', x: 0.4, y: 0.75, color: '#2496ed', area: 'devops' },
-  { id: 'skill-git', label: 'Git', x: 0.5, y: 0.15, color: '#f05032', area: 'devops' },
+  // Frontend
+  { id: 'skill-js', label: 'JavaScript', zone: 'frontend', color: '#f7df1e' },
+  { id: 'skill-react', label: 'React', zone: 'frontend', color: '#61dafb' },
+  { id: 'skill-css', label: 'CSS', zone: 'frontend', color: '#264de4' },
+  { id: 'skill-next', label: 'Next.js', zone: 'frontend', color: '#ffffff' },
+  { id: 'skill-twcss', label: 'Tailwind CSS', zone: 'frontend', color:'#27ebb3' },
+
+  // Backend
+  { id: 'skill-python', label: 'Python', zone: 'backend', color: '#3776ab' },
+  { id: 'skill-node', label: 'Node.js', zone: 'backend', color: '#339933' },
+  { id: 'skill-pg', label: 'PostgreSQL', zone: 'backend', color: '#003b57' },
+  { id: 'skill-ts', label: 'TS/JS', zone: 'backend', color: '#3178c6' },
+
+  // Game Dev
+  { id: 'skill-unity', label: 'Unity/C#', zone: 'gamedev', color: '#ffffff' },
+  { id: 'skill-unreal', label: 'Unreal/C++', zone: 'gamedev', color: '#000000' },
+  { id: 'skill-java-g', label: 'Java', zone: 'gamedev', color: '#f89820' },
+
+  // Mobile
+  { id: 'skill-java-m', label: 'Java', zone: 'mobile', color: '#f89820' },
+  { id: 'skill-kotlin', label: 'Kotlin', zone: 'mobile', color: '#7f52ff' },
+
+  // Other
+  { id: 'skill-cpp', label: 'C++', zone: 'other', color: '#00599c' },
+  { id: 'skill-git', label: 'Git CI/CD', zone: 'other', color: '#f05032' },
 ];
 
 const ConstellationCanvas: React.FC = () => {
@@ -34,62 +53,138 @@ const ConstellationCanvas: React.FC = () => {
   const particlesRef = useRef<Particle[]>([]);
   const isInitializedRef = useRef(false);
 
+  // Конфигурация зон (в процентах от размера экрана)
+  const ZONE_CONFIG = {
+    frontend: { x: 0.3, y: 0.3, radius: 140, color: 'rgba(97, 218, 251, 0.3)' },
+    backend: { x: 0.7, y: 0.3, radius: 140, color: 'rgba(51, 153, 51, 0.3)' },
+    gamedev: { x: 0.15, y: 0.7, radius: 140, color: 'rgba(217, 22, 227, 0.4)' },
+    mobile: { x: 0.85, y: 0.7, radius: 140, color: 'rgba(248, 152, 32, 0.3)' },
+    other: { x: 0.5, y: 0.7, radius: 140, color: 'rgba(240, 80, 50, 0.3)' },
+  };
+
   const initParticles = useCallback((width: number, height: number) => {
-    // Защита от инициализации с нулевыми размерами
     if (width <= 0 || height <= 0) return;
 
     const particles: Particle[] = [];
 
     SKILLS_DATA.forEach((skill) => {
+      const zone = ZONE_CONFIG[skill.zone];
+      // Случайная позиция внутри зоны
+      const angle = Math.random() * Math.PI * 2;
+      const r = Math.random() * zone.radius * 0.6;
+
       particles.push({
         ...skill,
-        x: skill.x * width,
-        y: skill.y * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        radius: 6,
+        x: zone.x * width + Math.cos(angle) * r,
+        y: zone.y * height + Math.sin(angle) * r,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        radius: 5,
+        zoneCenterX: zone.x * width,
+        zoneCenterY: zone.y * height,
+        zoneRadius: zone.radius,
       });
     });
 
-    for (let i = 0; i < 30; i++) {
+    // Фоновые звезды
+    for (let i = 0; i < 40; i++) {
       particles.push({
-        id: '', label: '', x: Math.random() * width, y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
-        radius: Math.random() * 1.5, color: '#ffffff', isStar: true
+        id: '',
+        label: '',
+        zone: 'other',
+        color: '#ffffff',
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15,
+        radius: Math.random() * 1.5,
+        zoneCenterX: 0,
+        zoneCenterY: 0,
+        zoneRadius: 0,
+        isStar: true,
       } as Particle);
     }
+
     particlesRef.current = particles;
     isInitializedRef.current = true;
   }, []);
 
+  // Ограничение частицы внутри зоны
+  const constrainToZone = (p: Particle, width: number, height: number) => {
+    if (p.isStar) {
+      p.x += p.vx;
+      p.y += p.vy;
+      // Звезды отскакивают от границ экрана
+      if (p.x <= 0 || p.x >= width) p.vx *= -1;
+      if (p.y <= 0 || p.y >= height) p.vy *= -1;
+      return;
+    }
+
+    const dx = p.x - p.zoneCenterX;
+    const dy = p.y - p.zoneCenterY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Если частица выходит за пределы зоны (90% радиуса для плавности)
+    if (distance > p.zoneRadius * 0.9) {
+      // Вектор к центру
+      const angle = Math.atan2(dy, dx);
+      // Возвращаем внутрь
+      const targetX = p.zoneCenterX + Math.cos(angle) * p.zoneRadius * 0.85;
+      const targetY = p.zoneCenterY + Math.sin(angle) * p.zoneRadius * 0.85;
+      
+      // Плавное смещение к центру + небольшое случайное движение
+      p.x += (targetX - p.x) * 0.05 + (Math.random() - 0.5) * 0.5;
+      p.y += (targetY - p.y) * 0.05 + (Math.random() - 0.5) * 0.5;
+      
+      // Разворачиваем скорость
+      p.vx *= -0.5;
+      p.vy *= -0.5;
+    } else {
+      // Обычное движение внутри зоны
+      p.x += p.vx;
+      p.y += p.vy;
+    }
+  };
+
   const drawZones = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
-    ctx.font = 'bold 16px sans-serif';
+    ctx.font = 'bold 14px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    // Frontend
-    ctx.fillStyle = 'rgba(97, 218, 251, 0.05)';
-    ctx.beginPath();
-    ctx.arc(width * 0.25, height * 0.4, 150, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(97, 218, 251, 0.3)';
-    ctx.fillText('FRONTEND', width * 0.25, height * 0.7);
+    Object.entries(ZONE_CONFIG).forEach(([key, zone]) => {
+      const centerX = zone.x * width;
+      const centerY = zone.y * height;
 
-    // Backend
-    ctx.fillStyle = 'rgba(51, 153, 51, 0.05)';
-    ctx.beginPath();
-    ctx.arc(width * 0.7, height * 0.4, 150, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(51, 153, 51, 0.3)';
-    ctx.fillText('BACKEND', width * 0.7, height * 0.7);
+      // Фон зоны
+      if (zone.color.includes('0.3'))
+        ctx.fillStyle = zone.color.replace('0.3', '0.05')
+      if (zone.color.includes('0.4'))
+        ctx.fillStyle = zone.color.replace('0.4', '0.05')
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, zone.radius, 0, Math.PI * 2);
+      ctx.fill();
 
-    // DevOps
-    ctx.fillStyle = 'rgba(240, 80, 50, 0.05)';
-    ctx.beginPath();
-    ctx.ellipse(width * 0.5, height * 0.8, 200, 100, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(240, 80, 50, 0.3)';
-    ctx.fillText('DEVOPS & TOOLS', width * 0.5, height * 0.9);
+      // Граница зоны
+      if (zone.color.includes('0.3'))
+        ctx.strokeStyle = zone.color.replace('0.3', '0.2')
+      if (zone.color.includes('0.4'))
+        ctx.strokeStyle = zone.color.replace('0.4', '0.2')
+      ctx.lineWidth = 1;
+      ctx.setLineDash([5, 5]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Текст зоны
+      ctx.fillStyle = zone.color;
+      const labelMap: Record<string, string> = {
+        frontend: 'FRONTEND',
+        backend: 'BACKEND',
+        gamedev: 'GAME DEV',
+        mobile: 'MOBILE',
+        other: 'OTHER',
+      };
+      ctx.fillText(labelMap[key], centerX, centerY + zone.radius + 25);
+    });
   };
 
   const animate = useCallback(() => {
@@ -105,6 +200,7 @@ const ConstellationCanvas: React.FC = () => {
     ctx.clearRect(0, 0, width, height);
     drawZones(ctx, width, height);
 
+    // Линии между частицами
     ctx.lineWidth = 0.5;
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -114,9 +210,9 @@ const ConstellationCanvas: React.FC = () => {
         const dy = p1.y - p2.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < 150) {
+        if (distance < 120) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(100, 149, 237, ${1 - distance / 150})`;
+          ctx.strokeStyle = `rgba(100, 149, 237, ${1 - distance / 120})`;
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p2.x, p2.y);
           ctx.stroke();
@@ -124,24 +220,28 @@ const ConstellationCanvas: React.FC = () => {
       }
     }
 
+    // Обновление и отрисовка частиц
     particles.forEach((p) => {
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.x <= 0 || p.x >= width) p.vx *= -1;
-      if (p.y <= 0 || p.y >= height) p.vy *= -1;
+      constrainToZone(p, width, height);
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       ctx.fillStyle = p.color;
       ctx.fill();
+      
+      // Обводка для темных цветов
+      if (p.color === '#000000') {
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
 
       if (p.label) {
-        ctx.font = 'bold 14px sans-serif';
+        ctx.font = 'bold 12px sans-serif';
         ctx.fillStyle = '#e0e6ed';
         ctx.shadowColor = '#000';
         ctx.shadowBlur = 4;
-        ctx.fillText(p.label, p.x + 12, p.y - 12);
+        ctx.fillText(p.label, p.x + 10, p.y - 10);
         ctx.shadowBlur = 0;
       }
     });
@@ -161,7 +261,7 @@ const ConstellationCanvas: React.FC = () => {
       if (p.isStar) return false;
       const dx = clickX - p.x;
       const dy = clickY - p.y;
-      return Math.sqrt(dx * dx + dy * dy) < 30;
+      return Math.sqrt(dx * dx + dy * dy) < 25;
     });
 
     if (clickedParticle && clickedParticle.id) {
@@ -189,29 +289,23 @@ const ConstellationCanvas: React.FC = () => {
     const width = parent.offsetWidth;
     const height = parent.offsetHeight;
 
-    // Устанавливаем размеры canvas
     canvas.width = width;
     canvas.height = height;
 
-    // Инициализируем частицы только если размеры валидны
     if (width > 0 && height > 0) {
       initParticles(width, height);
     }
   }, [initParticles]);
 
   useEffect(() => {
-    // Первоначальная настройка
     setupCanvas();
     animate();
 
-    // Обработчик ресайза
     const handleResize = () => {
       setupCanvas();
     };
-
     window.addEventListener('resize', handleResize);
 
-    // Дополнительная проверка через setTimeout на случай если DOM еще не готов
     const timeoutId = setTimeout(() => {
       if (!isInitializedRef.current) {
         setupCanvas();
@@ -228,18 +322,25 @@ const ConstellationCanvas: React.FC = () => {
   return (
     <div style={{
       position: 'relative',
-      height: '60vh',
+      height: '90vh',
       width: '100%',
       background: 'radial-gradient(circle at center, #161b2e 0%, #0b0d17 100%)',
       overflow: 'hidden',
       borderBottom: '1px solid rgba(255,255,255,0.1)',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      borderRadius: '50px'
     }}>
       <div style={{
-        position: 'absolute', top: '20px', left: '20px', zIndex: 10, pointerEvents: 'none'
+        position: 'absolute', 
+        top: '20px', 
+        left: '20px', 
+        zIndex: 10, 
+        pointerEvents: 'none'
       }}>
-        <h2 style={{ color: '#fff', margin: 0, fontSize: '1.5rem' }}>Интерактивная карта</h2>
-        <p style={{ color: '#aaa', fontSize: '0.9rem', margin: '5px 0 0 0' }}>Нажмите на навык, чтобы найти его в таблице</p>
+        <h2 style={{ color: '#fff', margin: 0, fontSize: '1.5rem' }}>Карта Навыков</h2>
+        <p style={{ color: '#aaa', fontSize: '0.9rem', margin: '5px 0 0 0' }}>
+          Нажмите на навык для перехода к таблице
+        </p>
       </div>
       <canvas 
         ref={canvasRef} 

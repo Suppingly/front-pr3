@@ -1,7 +1,10 @@
 @import "tailwindcss";
 @tailwind utilities;
+header{
+  @apply fixed w-full flex justify-center max-w-[1280px] z-100
+}
 .header-container{
-  @apply flex flex-row justify-around bg-[linear-gradient(90deg,rgb(169,28,194),rgb(156,52,225))] py-3 rounded-b-4xl
+  @apply w-full flex flex-row justify-around bg-[linear-gradient(90deg,rgb(169,28,194),rgb(156,52,225))] py-3 rounded-b-4xl
 }
 .test{
   background: linear-gradient(90deg,rgb(169, 28, 194),rgb(156,52,225));
@@ -13,5 +16,5 @@
   @apply w-fit flex
 }
 .header-link{
-  @apply w-fit hover:border-b-3 border-purple-400 px-10
+  @apply w-fit hover:border-b-3 border-purple-400 px-10 font-bold
 }

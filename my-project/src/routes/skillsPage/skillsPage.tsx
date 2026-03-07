@@ -4,85 +4,117 @@ import ConstellationCanvas from '../../components/constellation'
 function Skills(){
   return(
     <>
-      <header>
-        <h1>Иван Иванов</h1>
-          <p className="subtitle">Full-Stack Разработчик | Архитектор ПО</p>
-      </header>
+    <div className="skillsCon">
+      <h6 className='skills'>Мои навыки в програмировании</h6>
 
       <section className="constellation-container" id="constellation">
-          <div className="overlay-text">
-              <h2>Карта Навыков</h2>
-              <p>Наведите курсор, чтобы увидеть связи</p>
-          </div>
-          <ConstellationCanvas />
+        <ConstellationCanvas />
       </section>
 
-      <section style={{ padding: '4rem 2rem', maxWidth: '1000px', margin: '0 auto' }}>
-        <h2 style={{ marginBottom: '2rem', borderLeft: '4px solid #00d4ff', paddingLeft: '1rem' }}>
-          Детальный Стек
-        </h2>
+      <section className='my-20'>
+        <h2 className='skillsText'>Стек моих навыков и изученных языков и библиотек</h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+        <div className='skillsTable'>
           
-          {/* Карточка Frontend */}
-          <div style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px' }}>
-            <h3 style={{ color: '#61dafb', marginBottom: '1rem' }}>Frontend</h3>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className='skillFracSection'>
+            <h3 className='skillFrac text-sky-300'>Frontend</h3>
+            <table className='skillFracT'>
               <tbody>
-                {/* ID совпадает с id в SKILLS_DATA */}
-                <tr id="skill-js" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <td style={{ padding: '10px' }}>JavaScript</td>
-                  <td style={{ textAlign: 'right' }}>95%</td>
+                <tr id="skill-js" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>JavaScript</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
                 </tr>
-                <tr id="skill-react" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <td style={{ padding: '10px' }}>React</td>
-                  <td style={{ textAlign: 'right' }}>90%</td>
+                <tr id="skill-react" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>React</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>                
                 </tr>
-                <tr id="skill-css" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <td style={{ padding: '10px' }}>CSS / SCSS</td>
-                  <td style={{ textAlign: 'right' }}>98%</td>
+                <tr id="skill-next" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Next.js</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
+                </tr>
+                <tr id="skill-css" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>CSS</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
+                </tr>
+                <tr id="skill-twcss" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Tailwind CSS</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          {/* Карточка Backend */}
-          <div style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px' }}>
-            <h3 style={{ color: '#339933', marginBottom: '1rem' }}>Backend</h3>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className='skillFracSection'>
+            <h3 className='skillFrac text-green-500'>Backend</h3>
+            <table className='skillFracT'>
               <tbody>
-                <tr id="skill-node" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <td style={{ padding: '10px' }}>Node.js</td>
-                  <td style={{ textAlign: 'right' }}>85%</td>
+                <tr id="skill-node" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Node.js</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
                 </tr>
-                <tr id="skill-python" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <td style={{ padding: '10px' }}>Python</td>
-                  <td style={{ textAlign: 'right' }}>80%</td>
+                <tr id="skill-python" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Python</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
                 </tr>
-                <tr id="skill-sql" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <td style={{ padding: '10px' }}>PostgreSQL</td>
-                  <td style={{ textAlign: 'right' }}>88%</td>
+                <tr id="skill-sql" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>PostgreSQL</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
                 </tr>
-                <tr id="skill-go" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <td style={{ padding: '10px' }}>Go</td>
-                  <td style={{ textAlign: 'right' }}>60%</td>
+                <tr id="skill-ts" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Typescript / Javascript</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div className='skillFracSection'>
+            <h3 className='skillFrac text-fuchsia-300'>Game Dev</h3>
+            <table className='skillFracT'>
+              <tbody>
+                <tr id="skill-unity" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Unity / C#</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
+                </tr>
+                <tr id="skill-unreal" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Unreal Engine / C++</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
+                </tr>
+                <tr id="skill-java-g" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Java</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          {/* Карточка DevOps */}
-          <div style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px' }}>
-            <h3 style={{ color: '#f05032', marginBottom: '1rem' }}>DevOps</h3>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className='skillFracSection'>
+            <h3 className='skillFrac text-amber-500'>Мобильная разработка</h3>
+            <table className='skillFracT'>
               <tbody>
-                <tr id="skill-docker" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <td style={{ padding: '10px' }}>Docker</td>
-                  <td style={{ textAlign: 'right' }}>75%</td>
+                <tr id="skill-java-m" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Java</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
                 </tr>
-                <tr id="skill-git" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <td style={{ padding: '10px' }}>Git / CI/CD</td>
-                  <td style={{ textAlign: 'right' }}>92%</td>
+                <tr id="skill-kotlin" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Kotlin</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className='skillFracSection'>
+            <h3 className='skillFrac text-red-600'>Другое</h3>
+            <table className='skillFracT'>
+              <tbody>
+                <tr id="skill-cpp" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>C++</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
+                </tr>
+                <tr id="skill-git" className='skillDesc'>
+                  <td className='w-1/2'><img src="" alt="" /><div className='skill'>Git / CI/CD</div></td>
+                  <td className='font-bold text-yellow-400 text-xl'>Средний</td>
                 </tr>
               </tbody>
             </table>
@@ -94,6 +126,7 @@ function Skills(){
       <footer>
           <p>&copy; 2023 Иван Иванов. Все права защищены.</p>
       </footer>
+    </div>
     </>
   )
 }
