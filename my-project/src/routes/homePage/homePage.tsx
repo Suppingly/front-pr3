@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 const journey = [
     { year: '2023-н.в.', role: 'Senior GameDev Developer', company: 'Dodloe' },
@@ -8,18 +9,18 @@ const journey = [
 
 const myProjects = [
     {
-    title: 'Проект Alpha',
-    desc: 'Лендинг для крипто-стартапа с использованием React и Three.js. Анимации, темная тема и интерактивные графики.',
+    title: 'Музей города Каштановска',
+    desc: 'Виртуальный музей города Каштановска с интересными артифактами и увлекательными заданиями.',
     gradient: 'from-blue-500 to-purple-600'
     },
     {
-    title: 'Приложение Beta',
-    desc: 'Мобильное приложение для трекинга привычек. Дизайн в стиле Glassmorphism, Firebase бэкенд.',
+    title: 'Тг бот - Менеджер задач',
+    desc: 'Телеграмм бот для трекинга задач. Он умеет хранить задачи, создавать диаграммы Ганта и напоминать пользователей об задачах.',
     gradient: 'from-pink-500 to-rose-600'
     },
     {
-    title: 'Платформа Gamma',
-    desc: 'E-commerce магазин одежды. Интеграция с платежной системой, админ-панель и кастомный UI кит.',
+    title: 'Лендинг сайта',
+    desc: 'Сайт для решения цифрового агентства с несколькими страницами.',
     gradient: 'from-purple-500 to-indigo-600'
     }
 ]
@@ -76,7 +77,7 @@ function Home() {
       {/* Hero секция */}
       <section className="min-h-screen flex flex-row justify-between items-center relative overflow-hidden pt-20 pb-5">
         {/* Анимированные фоновые элементы */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/3 left-1/7 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
         
         <div className={`container w-1/2 px-6 text-center transform transition-all duration-1000 ${isVisible ? '-translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
@@ -165,7 +166,7 @@ function Home() {
                 key={index}
                 className="group relative p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-500 hover:-translate-y-2 overflow-hidden"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                <a href="/projects" className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></a>
                 <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${project.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}>
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />

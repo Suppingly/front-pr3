@@ -57,7 +57,7 @@ const ConstellationCanvas: React.FC = () => {
   const ZONE_CONFIG = {
     frontend: { x: 0.3, y: 0.3, radius: 140, color: 'rgba(97, 218, 251, 0.3)' },
     backend: { x: 0.7, y: 0.3, radius: 140, color: 'rgba(51, 153, 51, 0.3)' },
-    gamedev: { x: 0.15, y: 0.7, radius: 140, color: 'rgba(217, 22, 227, 0.4)' },
+    gamedev: { x: 0.15, y: 0.7, radius: 140, color: 'rgba(242, 2, 255, 0.3)' },
     mobile: { x: 0.85, y: 0.7, radius: 140, color: 'rgba(248, 152, 32, 0.3)' },
     other: { x: 0.5, y: 0.7, radius: 140, color: 'rgba(240, 80, 50, 0.3)' },
   };
@@ -156,19 +156,12 @@ const ConstellationCanvas: React.FC = () => {
       const centerY = zone.y * height;
 
       // Фон зоны
-      if (zone.color.includes('0.3'))
-        ctx.fillStyle = zone.color.replace('0.3', '0.05')
-      if (zone.color.includes('0.4'))
-        ctx.fillStyle = zone.color.replace('0.4', '0.05')
+      ctx.fillStyle = zone.color.replace('0.3', '0.05')
       ctx.beginPath();
       ctx.arc(centerX, centerY, zone.radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Граница зоны
-      if (zone.color.includes('0.3'))
-        ctx.strokeStyle = zone.color.replace('0.3', '0.2')
-      if (zone.color.includes('0.4'))
-        ctx.strokeStyle = zone.color.replace('0.4', '0.2')
+      ctx.strokeStyle = zone.color
       ctx.lineWidth = 1;
       ctx.setLineDash([5, 5]);
       ctx.stroke();
