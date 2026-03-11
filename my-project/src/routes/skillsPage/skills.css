@@ -4,16 +4,19 @@
   @apply pt-20
 }
 .skills{
-  @apply text-5xl font-bold pb-10 text-left
+  @apply text-5xl font-bold pb-10 text-left bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent
 }
 .skillsText{
-  @apply text-left text-3xl my-10 font-medium
+  @apply text-left text-3xl my-10 font-medium bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent
+}
+.skillsPreText{
+  @apply text-left text-2xl my-15 text-purple-200/80
 }
 .skillsTable{
   @apply gap-10 grid grid-cols-2 select-none
 }
 .skillFracSection{
-  @apply bg-white/10 py-6 rounded-2xl flex flex-col items-center
+  @apply bg-white/10 border-1 border-white/10 py-6 rounded-2xl flex flex-col items-center backdrop-blur-sm transition-all duration-300 hover:bg-white/15 hover:border-purple-400/50
 }
 .skillFrac{
   @apply font-medium text-4xl mb-3
