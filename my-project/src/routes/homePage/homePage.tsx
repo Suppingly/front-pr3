@@ -81,8 +81,8 @@ function Home() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
         
         <div className={`container w-1/2 px-6 text-center transform transition-all duration-1000 ${isVisible ? '-translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
-            Привет, я <br />
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+            Привет, я, Куликов Александр,<br />
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
               Программист
             </span>
