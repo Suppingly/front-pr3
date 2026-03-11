@@ -16,5 +16,5 @@ header{
   @apply w-fit flex
 }
 .header-link{
-  @apply w-fit px-10 font-medium hover:text-purple-400 transition-colors duration-300 py-3
+  @apply w-fit px-10 font-medium hover:text-purple-400 transition-colors duration-300 py-6
 }

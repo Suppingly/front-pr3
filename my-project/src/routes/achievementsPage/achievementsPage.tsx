@@ -1,5 +1,5 @@
 import './achievements.css'
-import { useState,useEffect } from 'react';
+import { usePageAnimation } from '../../hooks/usePageAnimation';
 
 // 1. Типы данных
 interface Stat {
@@ -98,10 +98,7 @@ const achievementsData: Achievement[] = [
 ];
 
 const Achievements: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false)
-      useEffect(() => {
-          setIsVisible(true)
-        }, [])
+  const isVisible = usePageAnimation()
   return (
     <section className={`min-h-screen py-20 transition-all duration-1000 ${isVisible ? '-translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
       <h6 className={`text-5xl w-fit h-15 font-bold text-left bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-1000`}>Мои успехи</h6>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { usePageAnimation } from "../../hooks/usePageAnimation"
 import museum from '../../assets/museum.png'
 import matches from '../../assets/matches.png'
 import autoclicker from '../../assets/autoclicker.png'
@@ -61,10 +61,7 @@ const projects:projects[] = [
 ]
 
 function Projects(){
-  const [isVisible, setIsVisible] = useState(false)
-    useEffect(() => {
-        setIsVisible(true)
-      }, [])
+  const isVisible = usePageAnimation()
   return (
     <>
     <div className={`py-20 transition-all duration-1000 ${isVisible ? '-translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>

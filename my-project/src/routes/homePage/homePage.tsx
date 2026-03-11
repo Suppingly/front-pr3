@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { usePageAnimation } from '../../hooks/usePageAnimation'
+import { useState } from 'react'
 
 const journey = [
     { year: '2023-н.в.', role: 'Senior GameDev Developer', company: 'Dodloe' },
@@ -57,12 +57,8 @@ const mySkills = [
 ]
 
 function Home() {
-  const [isVisible, setIsVisible] = useState(false)
+  const isVisible = usePageAnimation()
   const [activeCard, setActiveCard] = useState<number | null>(null)
-
-  useEffect(() => {
-    setIsVisible(true)
-  }, [])
 
   const handleScrollToContacts = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
@@ -75,12 +71,12 @@ function Home() {
   return (
     <div className="min-h-screen text-white overflow-x-hidden">
       {/* Hero секция */}
-      <section className="min-h-screen flex flex-row justify-between items-center relative overflow-hidden pt-20 pb-5">
+      <section className={`min-h-screen flex flex-row justify-between items-center relative overflow-hidden pt-20 pb-5 transition-all duration-1000 ${isVisible ? '-translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
         {/* Анимированные фоновые элементы */}
         <div className="absolute top-1/3 left-1/7 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
         
-        <div className={`container w-1/2 px-6 text-center transform transition-all duration-1000 ${isVisible ? '-translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
+        <div className="herotext">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
             Привет, я, Куликов Александр,<br />
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">

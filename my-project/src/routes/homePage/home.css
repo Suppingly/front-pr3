@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@tailwind utilities;
 /* Кастомные анимации */
 @keyframes gradient {
   0%, 100% {
@@ -35,4 +35,7 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(168, 85, 247, 0.7);
+}
+.herotext{
+  @apply w-1/2 px-6 text-center
 }
