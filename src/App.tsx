@@ -7,7 +7,7 @@ import Footer from './components/Footer'
 function App() {
   return (
     <>
-      <Router>
+      <Router basename='/front-pr3'>
         <Header/>
         <AppRoutes/>
         <Footer/>
