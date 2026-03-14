@@ -58,7 +58,7 @@ function Skills(){
                   <td className='w-1/2'>{/*<img src="" alt="" />*/}<div className='skill'>Python</div></td>
                   <td className='font-bold text-green-400 text-xl'>Замечательно</td>
                 </tr>
-                <tr id="skill-sql" className='skillDesc'>
+                <tr id="skill-pg" className='skillDesc'>
                   <td className='w-1/2'>{/*<img src="" alt="" />*/}<div className='skill'>PostgreSQL</div></td>
                   <td className='font-bold text-yellow-400 text-xl'>Средне</td>
                 </tr>
