@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+@tailwind utilities;
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+body{
+  @apply bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white
+}
