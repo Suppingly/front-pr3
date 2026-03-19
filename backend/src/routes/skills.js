@@ -1,83 +1,61 @@
 import express from 'express';
-import skillsModel from '../models/skills.js';
-
 const router = express.Router();
+import pool from '../db.js';
 
 // Получить все навыки
-router.get('/', (req, res) => {
-    try {
-        const skills = skillsModel.findAll();
-        res.json(skills);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+router.get('/', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM skills ORDER BY level DESC');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
 });
 
-// Получить навык по ID
-router.get('/:id', (req, res) => {
-    try {
-        const skill = skillsModel.findById(req.params.id);
-        if (!skill) {
-            return res.status(404).json({ error: 'Навык не найден' });
-        }
-        res.json(skill);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Получить навыки по категории
-router.get('/category/:category', (req, res) => {
-    try {
-        const skills = skillsModel.findByCategory(req.params.category);
-        res.json(skills);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Создать навык
-router.post('/', (req, res) => {
-    try {
-        const { name, category, level, description } = req.body;
-        if (!name || !category || level === undefined) {
-            return res.status(400).json({ error: 'Поля name, category и level обязательны' });
-        }
-        const skill = skillsModel.create({ name, category, level, description });
-        res.status(201).json(skill);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+// Добавить навык
+router.post('/', async (req, res) => {
+  const { id, name, category, level, description } = req.body;
+  try {
+    const result = await pool.query(
+      'INSERT INTO skills (id, name, category, level, description) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [id, name, category, level, description]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Ошибка при добавлении навыка' });
+  }
 });
 
 // Обновить навык
-router.put('/:id', (req, res) => {
-    try {
-        const { name, category, level, description } = req.body;
-        if (!name || !category || level === undefined) {
-            return res.status(400).json({ error: 'Поля name, category и level обязательны' });
-        }
-        const skill = skillsModel.update(req.params.id, { name, category, level, description });
-        if (!skill) {
-            return res.status(404).json({ error: 'Навык не найден' });
-        }
-        res.json(skill);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, category, level, description } = req.body;
+  try {
+    const result = await pool.query(
+      'UPDATE skills SET name=$1, category=$2, level=$3, description=$4 WHERE id=$5 RETURNING *',
+      [name, category, level, description, id]
+    );
+    if (result.rows.length === 0) return res.status(404).json({ error: 'Навык не найден' });
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Ошибка при обновлении' });
+  }
 });
 
 // Удалить навык
-router.delete('/:id', (req, res) => {
-    try {
-        const result = skillsModel.delete(req.params.id);
-        if (result.changes === 0) {
-            return res.status(404).json({ error: 'Навык не найден' });
-        }
-        res.json({ message: 'Навык удалён' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query('DELETE FROM skills WHERE id = $1', [id]);
+    if (result.rowCount === 0) return res.status(404).json({ error: 'Навык не найден' });
+    res.json({ message: 'Навык удален' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Ошибка при удалении' });
+  }
 });
 
-export default router;
+export default router

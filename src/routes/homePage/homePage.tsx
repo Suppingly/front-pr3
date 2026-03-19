@@ -1,6 +1,8 @@
 import { usePageAnimation } from '../../hooks/usePageAnimation'
 import { useState, useEffect, type ReactElement } from 'react'
 import { projectsApi, skillsApi, type Project, type Skill } from '../../services/api'
+import cat from '../../assets/кот.jpg'
+import './home.css'
 
 const journey = [
     { year: '2023-н.в.', role: 'Senior GameDev Developer', company: 'Dodloe' },
@@ -240,6 +242,34 @@ function Home() {
             </div>
           )}
         </div>
+      </section>
+      <section className='py-25 flex flex-col justify-center relative overflow-hidden'>
+          <div className="particles-container">
+            {/* Частицы */}
+            <div className="particle"></div>
+            <div className="particle"></div>
+            <div className="particle"></div>
+            <div className="particle"></div>
+            <div className="particle"></div>
+            <div className="particle"></div>
+            <div className="particle"></div>
+            <div className="particle"></div>
+
+            {/* Изображение кота */}
+            <img src={cat} alt="" className="cat"/>
+
+            {/* Анимированная тень */}
+            <div className="cat-shadow"></div>
+          </div>
+          
+          {/* Звёздочки вокруг */}
+          <div className="star"></div>
+          <div className="star"></div>
+          <div className="star"></div>
+          <div className="star"></div><p className='text-2xl font-bold'>Мой ученик</p>
+      </section>
+      <section className='flex justify-center'>
+          
       </section>
     </div>
   )

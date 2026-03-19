@@ -1,83 +1,52 @@
 import express from 'express';
-import projectsModel from '../models/projects.js';
-
 const router = express.Router();
+import pool from '../db.js';
 
-// Получить все проекты
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM projects ORDER BY created_at DESC');
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.post('/', async (req, res) => {
+  const { id,title, description, category, image, link } = req.body;
+  try {
+    const result = await pool.query(
+      'INSERT INTO projects (id, title, description, category, image, link) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [id,title, description, category, image, link]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, description, category, image, link } = req.body;
+  try {
+    const result = await pool.query(
+      'UPDATE projects SET title=$1, description=$2, category=$3, image=$4, link=$5 WHERE id=$6 RETURNING *',
+      [title, description, category, image, link, id]
+    );
+    if (result.rows.length === 0) return res.status(404).json({ error: 'Проект не найден' });
+    res.json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
     try {
-        const projects = projectsModel.findAll();
-        res.json(projects);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+      await pool.query('DELETE FROM projects WHERE id = $1', [id]);
+      res.json({ message: 'Проект удален' });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
     }
 });
 
-// Получить проект по ID
-router.get('/:id', (req, res) => {
-    try {
-        const project = projectsModel.findById(req.params.id);
-        if (!project) {
-            return res.status(404).json({ error: 'Проект не найден' });
-        }
-        res.json(project);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Получить проекты по категории
-router.get('/category/:category', (req, res) => {
-    try {
-        const projects = projectsModel.findByCategory(req.params.category);
-        res.json(projects);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Создать проект
-router.post('/', (req, res) => {
-    try {
-        const { title, description, category, image, link } = req.body;
-        if (!title || !category) {
-            return res.status(400).json({ error: 'Поля title и category обязательны' });
-        }
-        const project = projectsModel.create({ title, description, category, image, link });
-        res.status(201).json(project);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Обновить проект
-router.put('/:id', (req, res) => {
-    try {
-        const { title, description, category, image, link } = req.body;
-        if (!title || !category) {
-            return res.status(400).json({ error: 'Поля title и category обязательны' });
-        }
-        const project = projectsModel.update(req.params.id, { title, description, category, image, link });
-        if (!project) {
-            return res.status(404).json({ error: 'Проект не найден' });
-        }
-        res.json(project);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Удалить проект
-router.delete('/:id', (req, res) => {
-    try {
-        const result = projectsModel.delete(req.params.id);
-        if (result.changes === 0) {
-            return res.status(404).json({ error: 'Проект не найден' });
-        }
-        res.json({ message: 'Проект удалён' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-export default router;
+export default router
