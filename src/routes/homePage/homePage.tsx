@@ -78,7 +78,7 @@ function Home() {
         
         <div className="herotext">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-            Привет, я, Куликов Александр,<br />
+            Привет, я<br />
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
               Программист
             </span>
